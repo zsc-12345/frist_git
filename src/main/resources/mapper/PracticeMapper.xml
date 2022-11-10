@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.PracticeMapper">
+    <resultMap id="BaseResultMap" type="com.linkage.domain.Practice">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="rank_level" jdbcType="INTEGER" property="rankLevel" />
+        <result column="paper_type" jdbcType="INTEGER" property="paperType" />
+        <result column="technical_types" jdbcType="INTEGER" property="technicalTypes" />
+        <result column="question_count" jdbcType="INTEGER" property="questionCount" />
+        <result column="suggest_time" jdbcType="INTEGER" property="suggestTime" />
+        <result column="limit_start_time" jdbcType="TIMESTAMP" property="limitStartTime" />
+        <result column="limit_end_time" jdbcType="TIMESTAMP" property="limitEndTime" />
+        <result column="frame_text_content_id" jdbcType="INTEGER" property="frameTextContentId" />
+        <result column="create_user" jdbcType="INTEGER" property="createUser" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="deleted" jdbcType="BIT" property="deleted" />
+        <result column="task_practice_id" jdbcType="INTEGER" property="taskPracticeId" />
+    </resultMap>
+    <sql id="Base_Practice_List">
+        id, name, rank_level, paper_type, technical_types, question_count, suggest_time,
+    limit_start_time, limit_end_time, frame_text_content_id, create_user, create_time,
+    deleted, task_practice_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Practice_List" />
+        from t_practice
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from t_practice
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.linkage.domain.Practice" useGeneratedKeys="true" keyProperty="id">
+        insert into t_practice (id, name, rank_level,
+                                  paper_type, technical_types,
+                                  question_count, suggest_time, limit_start_time,
+                                  limit_end_time, frame_text_content_id, create_user,
+                                  create_time, deleted, task_practice_id
+        )
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{rankLevel,jdbcType=INTEGER},
+                #{paperType,jdbcType=INTEGER}, #{technicalTypes,jdbcType=INTEGER},
+                #{questionCount,jdbcType=INTEGER}, #{suggestTime,jdbcType=INTEGER}, #{limitStartTime,jdbcType=TIMESTAMP},
+                #{limitEndTime,jdbcType=TIMESTAMP}, #{frameTextContentId,jdbcType=INTEGER}, #{createUser,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{taskPracticeId,jdbcType=INTEGER}
+               )
+    </insert>
+    <insert id="insertSelective" parameterType="com.linkage.domain.Practice" useGeneratedKeys="true" keyProperty="id">
+        insert into t_practice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="rankLevel != null">
+                rank_level,
+            </if>
+            <if test="paperType != null">
+                paper_type,
+            </if>
+            <if test="technicalTypes != null">
+                technical_types,
+            </if>
+            <if test="questionCount != null">
+                question_count,
+            </if>
+            <if test="suggestTime != null">
+                suggest_time,
+            </if>
+            <if test="limitStartTime != null">
+                limit_start_time,
+            </if>
+            <if test="limitEndTime != null">
+                limit_end_time,
+            </if>
+            <if test="frameTextContentId != null">
+                frame_text_content_id,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="taskPracticeId != null">
+                task_practice_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="rankLevel != null">
+                #{rankLevel,jdbcType=INTEGER},
+            </if>
+            <if test="paperType != null">
+                #{paperType,jdbcType=INTEGER},
+            </if>
+            <if test="technicalTypes != null">
+                #{technicalTypes,jdbcType=INTEGER},
+            </if>
+            <if test="questionCount != null">
+                #{questionCount,jdbcType=INTEGER},
+            </if>
+            <if test="suggestTime != null">
+                #{suggestTime,jdbcType=INTEGER},
+            </if>
+            <if test="limitStartTime != null">
+                #{limitStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="limitEndTime != null">
+                #{limitEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="frameTextContentId != null">
+                #{frameTextContentId,jdbcType=INTEGER},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=BIT},
+            </if>
+            <if test="taskPracticeId != null">
+                #{taskPracticeId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.linkage.domain.Practice">
+        update t_practice
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="rankLevel != null">
+                rank_level = #{rankLevel,jdbcType=INTEGER},
+            </if>
+            <if test="paperType != null">
+                paper_type = #{paperType,jdbcType=INTEGER},
+            </if>
+            <if test="technicalTypes != null">
+                technical_types = #{technicalTypes,jdbcType=INTEGER},
+            </if>
+            <if test="questionCount != null">
+                question_count = #{questionCount,jdbcType=INTEGER},
+            </if>
+            <if test="suggestTime != null">
+                suggest_time = #{suggestTime,jdbcType=INTEGER},
+            </if>
+            <if test="limitStartTime != null">
+                limit_start_time = #{limitStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="limitEndTime != null">
+                limit_end_time = #{limitEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="frameTextContentId != null">
+                frame_text_content_id = #{frameTextContentId,jdbcType=INTEGER},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=BIT},
+            </if>
+            <if test="taskPracticeId != null">
+                task_practice_id = #{taskPracticeId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.linkage.domain.Practice">
+        update t_practice
+        set name = #{name,jdbcType=VARCHAR},
+            rank_level = #{rankLevel,jdbcType=INTEGER},
+            paper_type = #{paperType,jdbcType=INTEGER},
+            technical_types = #{technicalTypes,jdbcType=INTEGER},
+            question_count = #{questionCount,jdbcType=INTEGER},
+            suggest_time = #{suggestTime,jdbcType=INTEGER},
+            limit_start_time = #{limitStartTime,jdbcType=TIMESTAMP},
+            limit_end_time = #{limitEndTime,jdbcType=TIMESTAMP},
+            frame_text_content_id = #{frameTextContentId,jdbcType=INTEGER},
+            create_user = #{createUser,jdbcType=INTEGER},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            deleted = #{deleted,jdbcType=BIT},
+            task_practice_id = #{taskPracticeId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+
+    <resultMap id="PaperInfoResultMap" type="com.linkage.viewmodel.student.dashboard.PracticeInfo">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="limit_start_time" jdbcType="TIMESTAMP" property="limitStartTime" />
+        <result column="limit_end_time" jdbcType="TIMESTAMP" property="limitEndTime" />
+    </resultMap>
+
+
+    <select id="page" resultMap="BaseResultMap" parameterType="com.linkage.viewmodel.admin.practice.PracticePaperPageRequestVM">
+        SELECT
+        <include refid="Base_Practice_List"/>
+        FROM t_practice
+        <where>
+            and deleted=0
+            <if test="id != null ">
+                and id= #{id}
+            </if>
+            <if test="technicalTypes != null ">
+                and technical_types= #{technicalTypes}
+            </if>
+            <if test="rankLevel != null ">
+                and rank_level= #{rankLevel}
+            </if>
+            <if test="paperType != null ">
+                and paper_type= #{paperType}
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+    <select id="taskExamPage" resultMap="BaseResultMap" parameterType="com.linkage.viewmodel.admin.practice.PracticePaperPageRequestVM">
+        SELECT
+        <include refid="Base_Practice_List"/>
+        FROM t_practice
+        <where>
+            and deleted=0
+            and task_practice_id is null
+            and technical_types= #{technicalTypes}
+            and paper_type=#{paperType}
+        </where>
+    </select>
+
+    <select id="studentPage" resultMap="BaseResultMap" parameterType="com.linkage.viewmodel.student.Practice.PracticePageVM">
+        SELECT
+        <include refid="Base_Practice_List"/>
+        FROM t_practice
+        <where>
+            and deleted=0
+            <if test="rankLevel != null ">
+                and rank_level=#{rankLevel}
+            </if>
+            <if test="technicalTypes != null ">
+                and technical_types=#{technicalTypes}
+            </if>
+            and paper_type=#{paperType}
+        </where>
+    </select>
+
+
+    <select id="indexPaper" resultMap="PaperInfoResultMap" parameterType="com.linkage.viewmodel.student.dashboard.PracticeFilter">
+        SELECT id,name,limit_start_time,limit_end_time
+        FROM t_practice
+        <where>
+            and deleted=0
+            and paper_type= #{practicePaperType}
+            and technical_types=#{technicalTypes}
+            <if test="practicePaperType == 3 ">
+            </if>
+            <if test="practicePaperType == 4 ">
+                and  #{dateTime} between limit_start_time  and limit_end_time
+            </if>
+        </where>
+        ORDER BY id  desc limit 5
+    </select>
+
+
+    <select id="selectAllCount"  resultType="java.lang.Integer">
+        SELECT count(*) from t_practice where deleted=0
+    </select>
+
+    <select id="selectCountByDate"  resultType="com.linkage.domain.other.KeyValue">
+        SELECT create_time as name,COUNT(create_time) as value from
+            (
+            SELECT DATE_FORMAT(create_time,'%Y-%m-%d') as create_time from t_practice
+            WHERE  deleted=0  and create_time  between  #{startTime}  and  #{endTime}
+            ) a
+        GROUP BY create_time
+    </select>
+
+
+    <update id="updateTaskPaper">
+        update t_practice set task_practice_id = #{taskId} where id in
+        <foreach item="id" collection="paperIds" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <update id="clearTaskPaper" parameterType="java.util.List">
+        update t_practice set task_practice_id = null where id in
+        <foreach item="id" collection="paperIds" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

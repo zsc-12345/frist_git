@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.AuthMapper">
+    <resultMap id="BaseResultMap" type="com.linkage.domain.AuthEntity">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="data_level" jdbcType="INTEGER" property="data_level" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modify_time" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, data_level, name, url, status, create_time, modify_time, remark
+    </sql>
+
+    <select id="selectAuthById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_auth
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <insert id="createAuth" parameterType="com.linkage.domain.AuthEntity">
+        insert into t_auth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            data_level,
+            name,
+            url,
+            status,
+            create_time,
+            modify_time,
+            remark,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="data_level != null">
+                #{data_level,jdbcType=VARCHAR},
+            </if>
+            #{name,jdbcType=VARCHAR},
+            #{url,jdbcType=INTEGER},
+            #{status,jdbcType=TIMESTAMP},
+            #{create_time,jdbcType=TIMESTAMP},
+            #{modify_time,jdbcType=INTEGER},
+            #{remark,jdbcType=VARCHAR},
+        </trim>
+    </insert>
+
+    <update id="updateAuth" parameterType="com.linkage.domain.AuthEntity">
+        update t_auth
+        <set>
+            <if test="data_level != null">
+                data_level = #{data_level,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                url = #{name,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            modify_time = #{modify_time,jdbcType=TIMESTAMP},
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deldteAuth" parameterType="java.lang.Integer">
+        delete from t_auth
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="SelectAuth" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_auth
+        where id = #{value}
+    </select>
+
+    <select id="authPage" resultMap="BaseResultMap" parameterType="com.linkage.viewmodel.role.AuthPageRequestVM">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_auth
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.linkage.domain.Role">
+        update t_auth
+        <set>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="data_level != null">
+                data_level = #{data_level,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TIMESTAMP},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modify_time != null">
+                modify_time = #{modify_time,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

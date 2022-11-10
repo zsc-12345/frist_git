@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.RoleAndUserRelationMapper">
+    <resultMap id="BaseResultMap" type="com.linkage.domain.RoleAndUserRelation">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="INTEGER" property="user_id" />
+        <result column="role_id" jdbcType="INTEGER" property="role_id" />
+    </resultMap>
+
+    <sql id="RoleAndUserRelation_Column_List">
+       id, user_id, role_id
+    </sql>
+
+    <sql id="User_Column_List">
+        id, user_uuid, user_name, password, real_name, age, sex, birth_day, user_level, phone,
+    role, status, image_path, create_time, modify_time, last_active_time, deleted, wx_open_id
+    </sql>
+
+    <sql id="Role_Column_List">
+        id, name, status, create_time, modify_time, type, remark
+    </sql>
+
+    <select id="getUsersByRole" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select
+        id
+        from t_user
+        where role = #{roleId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectRoleByUserId" parameterType="java.lang.Integer" resultType="com.linkage.domain.Role">
+        select
+        <include refid="Role_Column_List" />
+        from t_role
+        <where>
+            id =
+            <trim prefix="(" suffix=")">
+               select role from t_user where id = #{user_id,jdbcType=INTEGER}
+            </trim>
+        </where>
+    </select>
+
+    <select id="selectUserByRoleId" parameterType="java.lang.Integer" resultType="com.linkage.domain.User">
+        select
+        <include refid="User_Column_List" />
+        from t_user
+        <where>
+            role = #{role_id,jdbcType=INTEGER}
+        </where>
+    </select>
+
+    <insert id="addUserByRole" parameterType="com.linkage.domain.RoleAndUserRelation">
+        insert into t_user_role_relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            user_id,
+            role_id,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            null,
+            #{user_id,jdbcType=INTEGER},
+            #{role_id,jdbcType=INTEGER},
+        </trim>
+    </insert>
+    <select id="checkExist" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+            id
+        from t_user_role_relation
+        <where>
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+            user_id = #{userId,jdbcType=INTEGER}
+        and
+            role_id = #{roleId,jdbcType=INTEGER}
+            </trim>
+        </where>
+    </select>
+    <delete id="deleteUserId" parameterType="java.lang.Integer" >
+        delete from t_user_role_relation
+    <where>
+        user_id = #{userId,jdbcType=INTEGER}
+    </where>
+    </delete>
+    <update id="updateRoleId" parameterType="java.lang.Integer" >
+       update t_user_role_relation
+    <set>
+        role_id = #{roleId,jdbcType=INTEGER}
+    </set>
+       where
+        user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

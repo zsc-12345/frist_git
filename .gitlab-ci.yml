@@ -1,0 +1,37 @@
+image: aksnfug/maven-jdk11-gradle
+    
+cache:
+  paths:
+    - ./.m2/repository
+  key: "$CI_BUILD_REF_NAME"
+  
+
+stages:
+  - compile-check
+  - docker-deploy
+  
+compile-check-job:
+  stage: compile-check
+  script:
+    - echo "--------compile-check start---"
+    - mvn clean compile
+    - echo "--------compile-check end---"
+  only:
+    - develop
+  tags:
+    - local-shell-runner
+
+docker-deploy-job:
+  stage: docker-deploy
+  script:
+    - echo "--------docker-deploy start---"
+    - mvn clean package
+    - docker build -t lk-exam-service:v1.0 .
+    - docker-compose down
+    - docker-compose up -d
+    - echo "--------docker-deploy end--------"
+  only:
+    - main
+  tags:
+    - local-shell-runner
+

@@ -1,0 +1,8 @@
+version: '3.1'
+services:
+  education-course:
+    container_name: lk-exam-service
+    restart: always
+    image: lk-exam-service:v1.0
+    network_mode: "host"
+    command: java -jar -Xms1024m -Xmx1024m -Duser.timezone=GMT+08 lk-exam-service-1.0.0.jar

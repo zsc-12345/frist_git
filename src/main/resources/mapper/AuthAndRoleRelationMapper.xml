@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.AuthAndRoleRelationMapper">
+    <resultMap id="BaseResultMap" type="com.linkage.domain.AuthAndRoleRelation">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="role_id" jdbcType="INTEGER" property="role_id" />
+        <result column="auth_id" jdbcType="INTEGER" property="auth_id" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, role_id, auth_id
+    </sql>
+    <select id="selectAuthRoleRLN" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_role_auth_relation
+        where
+        role_id = #{role_id,jdbcType=INTEGER}
+    </select>
+    <insert id="insertAuthRoleRLN" parameterType="com.linkage.domain.AuthAndRoleRelation">
+        insert into  t_role_auth_relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            role_id,
+            auth_id,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            null,
+            <if test="role_id != null">
+                #{role_id,jdbcType=INTEGER},
+            </if>
+            <if test="auth_id != null">
+                #{auth_id,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteAuthRoleRLN" parameterType="java.lang.Integer">
+        delete from t_role_auth_relation
+        where
+            role_id = #{role_id,jdbcType=INTEGER}
+    </delete>
+    <select id="getAuthNameList" parameterType="java.lang.Integer" resultType="String">
+        select name from t_auth inner join t_role_auth_relation on t_auth.id = t_role_auth_relation.auth_id where t_role_auth_relation.role_id = #{id,jdbcType=INTEGER}
+    </select>
+
+</mapper>

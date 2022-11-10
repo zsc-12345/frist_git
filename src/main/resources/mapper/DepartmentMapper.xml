@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.dingtalk.DepartmentMapper">
+    <resultMap id="DepartmentMap" type="com.linkage.domain.dingtalk.DepartmentDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentid"/>
+        <result column="create_dept_group" jdbcType="TINYINT" property="createDeptGroup"/>
+        <result column="auto_add_user" jdbcType="TINYINT" property="autoAddUser"/>
+    </resultMap>
+
+    <select id="getAllDepartments" resultMap="DepartmentMap">
+        select
+        id,name,parent_id,create_dept_group,auto_add_user
+        from t_dingtalk_department
+    </select>
+
+    <insert id="insertDepartment" parameterType="com.linkage.domain.dingtalk.DepartmentDTO">
+        insert into t_dingtalk_department
+            (id,name,parent_id,create_dept_group,auto_add_user)
+        values
+            (#{id},#{name},#{parentid},#{createDeptGroup},#{autoAddUser})
+    </insert>
+
+    <update id="updateById" parameterType="com.linkage.domain.dingtalk.DepartmentDTO">
+        update t_dingtalk_department
+        set name = #{name},
+            parent_id = #{parentid},
+            create_dept_group = #{createDeptGroup},
+            auto_add_user = #{autoAddUser}
+        where id = #{id}
+    </update>
+
+    <select id="getDepartmentById" resultType="com.linkage.domain.dingtalk.DepartmentDTO" parameterType="Long">
+        select
+            id,name,parent_id,create_dept_group,auto_add_user
+        from t_dingtalk_department
+        where id = #{id}
+    </select>
+
+    <delete id="deleteDepartmentById" parameterType="Long">
+        delete from t_dingtalk_Department
+        where id = #{id}
+    </delete>
+
+</mapper>

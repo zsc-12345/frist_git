@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.dingtalk.DingTalkUserMapper">
+    <resultMap id="UserDTOMap" type="com.linkage.domain.dingtalk.UserDTO">
+        <id column="id" jdbcType="VARCHAR" property="userid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="job_number" jdbcType="VARCHAR" property="jobNumber"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="hired_date" jdbcType="BIGINT" property="hiredDate"/>
+        <result column="union_id" jdbcType="VARCHAR" property="unionId"/>
+        <result column="position" jdbcType="VARCHAR" property="position"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="telephone" jdbcType="VARCHAR" property="tel"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="org_email" jdbcType="VARCHAR" property="orgEmail"/>
+        <result column="work_place" jdbcType="VARCHAR" property="workPlace"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="is_active" jdbcType="TINYINT" property="active"/>
+        <result column="is_admin" jdbcType="TINYINT" property="isAdmin"/>
+        <result column="is_boss" jdbcType="TINYINT" property="isBoss"/>
+        <result column="is_hide" jdbcType="TINYINT" property="isHide"/>
+        <result column="is_leader" jdbcType="TINYINT" property="isLeader"/>
+    </resultMap>
+
+    <select id="getAllUsers" resultMap="UserDTOMap">
+        select
+            *
+        from t_dingtalk_user
+    </select>
+
+    <insert id="insertUser" parameterType="com.linkage.domain.dingtalk.UserDTO">
+        insert into t_dingtalk_user
+        values
+            (#{userid},#{name},#{jobNumber},#{avatar},#{hiredDate},#{unionId},#{position},#{mobile},#{tel},#{email},#{orgEmail},#{workPlace},#{remark},#{active},#{isAdmin},#{isBoss},#{isHide},#{isLeader})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.linkage.domain.dingtalk.UserDTO">
+        update t_dingtalk_user
+        set name = #{name},
+            job_number = #{jobNumber},
+            avatar = #{avatar},
+            hired_date = #{hiredDate},
+            union_id = #{unionId},
+            position = #{position},
+            mobile = #{mobile},
+            telephone = #{tel},
+            email = #{email},
+            org_email = #{orgEmail},
+            work_place = #{workPlace},
+            remark = #{remark},
+            is_active = #{active},
+            is_admin = #{isAdmin},
+            is_boss = #{isBoss},
+            is_hide = #{isHide},
+            is_leader = #{isLeader}
+        where id = #{userid}
+    </update>
+
+    <select id="getUserById" resultType="com.linkage.domain.dingtalk.UserDTO" parameterType="String">
+        select
+            *
+        from t_dingtalk_user
+        where id = #{userid}
+    </select>
+
+</mapper>

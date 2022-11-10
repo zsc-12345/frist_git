@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.UserStudentMapper">
+    <resultMap id="BaseResultMap" type="com.linkage.domain.UserStudent">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="user_id"/>
+        <result column="stu_id" jdbcType="INTEGER" property="stu_id"/>
+    </resultMap>
+    <sql id="Base_UserStu_List">
+        id, user_id, stu_id
+    </sql>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_UserStu_List"/>
+        from t_user_stu_relation
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <insert id="insert" parameterType="com.linkage.domain.UserStudent" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user_stu_relation (id, user_id, stu_id)
+        values (#{id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{stu_id,jdbcType=INTEGER})
+    </insert>
+    <insert id="add" parameterType="com.linkage.domain.UserStudent" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user_stu_relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="user_id != null">
+                user_id,
+            </if>
+            <if test="stu_id != null">
+                stu_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="user_id != null">
+                #{user_id,jdbcType=INTEGER},
+            </if>
+            <if test="stu_id != null">
+                #{stu_id,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete
+        from t_user_stu_relation
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <update id="updateByPrimaryKeySelective" parameterType="com.linkage.domain.UserStudent">
+        update t_user_stu_relation
+        <set>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="user_id != null">
+                user_id = #{user_id,jdbcType=INTEGER},
+            </if>
+            <if test="stu_id != null">
+                stu_id = #{stu_id,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateStudentById" parameterType="com.linkage.domain.UserStudent">
+        update t_user_stu_relation
+        set id          = #{id,jdbcType=INTEGER},
+        user_id  = #{user_id,jdbcType=INTEGER},
+        stu_id      = #{stu_id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

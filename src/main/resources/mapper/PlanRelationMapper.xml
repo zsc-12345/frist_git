@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.PlanRelationMapper">
+    <resultMap id="PlanRelationMap" type="com.linkage.domain.plan.PlanRelation">
+        <id column="relation_id" jdbcType="INTEGER" property="planRelationId"/>
+        <result column="learn_plan_id" jdbcType="INTEGER" property="learnPlanId"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="out_id" jdbcType="VARCHAR" property="outId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="relation_start_date" jdbcType="TIMESTAMP" property="planRelationStartDate"/>
+        <result column="relation_corn" jdbcType="VARCHAR" property="planRelationCorn"/>
+    </resultMap>
+
+    <select id="getPlanRelations" resultMap="PlanRelationMap" parameterType="INTEGER">
+        select *
+        from (SELECT relation_id,relation_start_date, type, name, out_id
+              FROM xzs.t_learn_plan_relation lp
+              inner join t_dingtalk_user user
+              on user.id = lp.out_id and (lp.type = 1 or lp.type = 2 or lp.type = 3) and lp.learn_plan_id = #{learnPlanId}
+              union all
+              SELECT relation_id,relation_start_date, type, name, out_id
+              FROM xzs.t_learn_plan_relation lp
+                  inner join t_subject
+              on t_subject.id = lp.out_id and lp.type = 4 and lp.learn_plan_id = #{learnPlanId}
+              union all
+              SELECT relation_id,relation_start_date, type, name, out_id
+              FROM xzs.t_learn_plan_relation lp
+                  inner join t_exam_paper
+              on t_exam_paper.id = lp.out_id and lp.type =5 and lp.learn_plan_id = #{learnPlanId}) as temp
+        order by relation_start_date
+    </select>
+
+    <insert id="addPlanRelation" parameterType="com.linkage.domain.plan.PlanRelation" keyProperty="planRelationId"
+            useGeneratedKeys="true">
+        insert into t_learn_plan_relation(learn_plan_id, type, out_id, relation_start_date, relation_corn)
+        values (#{learnPlanId}, #{type}, #{outId}, #{planRelationStartDate,jdbcType=TIMESTAMP}, #{planRelationCorn})
+    </insert>
+
+    <delete id="deleteById" parameterType="INTEGER">
+        delete from t_learn_plan_relation where relation_id = #{planRelationId}
+    </delete>
+</mapper>

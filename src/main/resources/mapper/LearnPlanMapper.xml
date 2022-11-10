@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkage.repository.LearnPlanMapper">
+    <resultMap id="learnPlanMap" type="com.linkage.domain.plan.LearnPlan">
+        <id column="plan_id" jdbcType="INTEGER" property="planId"/>
+        <result column="plan_name" jdbcType="VARCHAR" property="planName"/>
+        <result column="plan_start_date" jdbcType="TIMESTAMP" property="planStartDate"/>
+        <result column="plan_end_date" jdbcType="TIMESTAMP" property="planEndDate"/>
+        <result column="plan_corn" jdbcType="VARCHAR" property="planCorn"/>
+    </resultMap>
+
+    <insert id="addLearnPlan" keyProperty="planId" useGeneratedKeys="true" parameterType="com.linkage.domain.plan.LearnPlan">
+        insert into t_learn_plan
+            (plan_name, plan_start_date, plan_end_date, plan_corn)
+        values (#{planName}, #{planStartDate,jdbcType=TIMESTAMP}, #{planEndDate,jdbcType=TIMESTAMP}, #{planCorn})
+    </insert>
+
+    <select id="getLearnPlanByName" parameterType="String" resultMap="learnPlanMap">
+        select * from t_learn_plan where plan_name = #{planName}
+    </select>
+</mapper>
